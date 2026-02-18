@@ -141,12 +141,24 @@ def clean_and_fill_content_rating(df_fully_null_removed):
     return df_clean_content_rating
 
 def clean_release_year(df_clean):
-    df_fully_null_removed = df_clean.copy() 
+    df_clean_release_year_temp = df_clean.copy() 
     
-    df_fully_null_removed["release_year_coerce"] = pd.to_datetime(df_fully_null_removed["release_year"], errors = "coerce")
-    df_fully_null_removed["release_year_mixed"] = pd.to_datetime(df_fully_null_removed["release_year"], errors = "coerce", format = "mixed")
+    df_clean_release_year_temp["release_year_coerce"] = pd.to_datetime(df_clean_release_year_temp["release_year"], errors = "coerce")
+    df_clean_release_year_temp["release_year_mixed"] = pd.to_datetime(df_clean_release_year_temp["release_year"], errors = "coerce", format = "mixed")
 
-    return df_fully_null_removed
+    return df_clean_release_year_temp
+
+def clean_income(clean_release_year):
+    df_clean_income = clean_release_year.copy() 
+
+    df_clean_income["income"] = df_clean_income["income"].astype(str).str.replace(r'[^0-9,.]+', '', regex = True) 
+    df_clean_income["income"] = df_clean_income["income"].str.replace(',', '', regex = False) 
+    df_clean_income["income"] = df_clean_income["income"].replace('', None) 
+    df_clean_income["income"] = df_clean_income["income"].astype('Int64') 
+
+    return df_clean_income 
+     
+
 
 
 
