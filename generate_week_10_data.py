@@ -5,7 +5,17 @@ import pandas as pd
 def create_data():
     np.random.seed(10)
     word_file = "/usr/share/dict/words"
-    WORDS = open(word_file).read().splitlines()
+
+    try:
+        WORDS = open(word_file).read().splitlines()
+    except FileNotFoundError:
+        WORDS = [
+        "Alex","Jordan","Taylor","Morgan","Casey",
+        "Riley","Jamie","Avery","Quinn","Kyren",
+        "Sam","Cameron","Reese","Parker","Skyler",
+        "Blake","Rowan","Emerson","Dakota","Finley"
+    ]
+        
     customers = pd.DataFrame({"customer_id": np.arange(1,11), 
                             "customer_age": np.random.uniform(0, 12*3, 10),
                             "customer_name": [WORDS[i] for i in np.random.randint(1, len(WORDS), 10)]})
